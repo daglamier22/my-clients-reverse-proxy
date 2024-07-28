@@ -28,7 +28,7 @@
 }
 
 # site block, listens on the $PORT environment variable, automatically assigned by railway
-:{$PORT} {
+:{$PORT:3333} {
 	# access logs
 	log {
 		format json # set access log format to json mode
@@ -38,8 +38,8 @@
 	reverse_proxy {
 		# for private networking replicas are exposed as multiple dns results, use those dns results as the upstreams
 		dynamic a {
-			name {$FRONTEND_DOMAIN}
-			port {$FRONTEND_PORT}
+			name {$FRONTEND_DOMAIN:localhost}
+			port {$FRONTEND_PORT:5173}
 			refresh 1s
 			dial_timeout 30s
 			versions ipv4 ipv6
@@ -66,8 +66,8 @@
 		reverse_proxy {
 			# for private networking replicas are exposed as multiple dns results, use those dns results as the upstreams
 			dynamic a {
-				name {$BACKEND_DOMAIN}
-				port {$BACKEND_PORT}
+				name {$BACKEND_DOMAIN:localhost}
+				port {$BACKEND_PORT:3000}
 				refresh 1s
 				dial_timeout 30s
 				versions ipv4 ipv6
